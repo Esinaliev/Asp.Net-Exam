@@ -1,0 +1,41 @@
+﻿@page
+@using Microsoft.AspNet.Identity;
+@using testAsp.Pages.Posts
+@{/*model testAsp.Pages.Posts.IndexModel*/}
+@{
+    IndexModel Model = new IndexModel();
+}
+  <style>
+   .item {
+    float: left; 
+    background: #fd0;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin-right: 5%; 
+    width: 20%;
+   }
+  </style>
+
+<h2>New posts</h2>
+<a class='btn-primary btn-primary btn-sm' asp-area="" asp-controller="Posts" asp-action="Create">New Post</a>
+<br />
+<br />
+@foreach(var item in Model.ListPosts)
+{
+  <div class="item">
+      <h5>@item.title</h5><br />
+      <p>@item.description</p>
+  </div>
+    <tr>
+        <td>@item.title</td>
+        <td>@item.userName</td>
+        <td>
+            @if (item.user_id.Trim() == User.Identity.GetUserId().Trim())
+            {
+                <a class="btn btn-primary btn-sm" href="/Users/Edit?id=@item.post_id">Edit</a>
+                <a class="btn btn-danger btn-sm" href="/Users/Delete?id=@item.post_id">Delete</a>
+            }
+        </td>
+    </tr>
+}

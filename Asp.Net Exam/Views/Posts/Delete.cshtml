@@ -1,0 +1,29 @@
+﻿@page
+@using System.Data.SqlClient;
+
+@{
+    try
+    {
+        String id = Request.Query["id"];
+
+        String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=asp_exam;Integrated Security=True";
+
+        using (SqlConnection connetion = new SqlConnection(connectionString))
+        {
+            connetion.Open();
+            String sql = "DELETE FROM posts WHERE post_id=@id";
+            using (SqlCommand cmd = new SqlCommand(sql, connetion))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.Error.WriteLine("sql Error");
+        Console.Error.WriteLine(ex.Message);
+    }
+
+    //Responce.Redirect("Posts/Index");
+}
